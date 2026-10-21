@@ -1,0 +1,14 @@
+import {readFile,mkdir,writeFile,copyFile} from 'node:fs/promises';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..');
+const core=await readFile(path.join(root,'src/core.js'),'utf8');
+const handler=(await readFile(path.join(root,'src/handler.js'),'utf8')).replace(/^import .*;\r?\n/gm,'');
+const html=await readFile(path.join(root,'src/page.html'),'utf8');
+const bundle=core+'\nconst HTML = '+JSON.stringify(html)+';\n'+handler;
+await mkdir(path.join(root,'worker'),{recursive:true});
+await mkdir(path.join(root,'dist/server'),{recursive:true});
+await mkdir(path.join(root,'dist/.openai'),{recursive:true});
+await writeFile(path.join(root,'worker/index.js'),bundle);
+await writeFile(path.join(root,'dist/server/index.js'),bundle);
+await copyFile(path.join(root,'.openai/hosting.json'),path.join(root,'dist/.openai/hosting.json'));
+console.log('Built StudyRelay Worker and local server bundle.');

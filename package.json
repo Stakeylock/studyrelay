@@ -1,0 +1,15 @@
+{
+  "name": "studyrelay",
+  "version": "1.0.0",
+  "description": "An explainable study recovery planner with a real Streamable HTTP MCP server",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/validate-artifact.mjs"
+  },
+  "license": "MIT"
+}
